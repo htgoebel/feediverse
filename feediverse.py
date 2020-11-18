@@ -165,7 +165,10 @@ def collect_images(entry, generator=None):
                 for u in urls)
     images = []
     for url in urls:
-        resp = http.request('GET', url, preload_content=False)
+        try:
+            resp = http.request('GET', url, preload_content=False)
+        except urllib3.exceptions.HTTPError:
+            continue
         if resp.headers['content-type'].startswith(("image/", "video/")):
             images.append(resp)
             # IMPORTANT: Need to release_conn() later!
