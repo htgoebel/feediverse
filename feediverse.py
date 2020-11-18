@@ -7,6 +7,7 @@ import argparse
 import yaml
 import dateutil
 import feedparser
+import certifi
 from bs4 import BeautifulSoup
 
 from mastodon import Mastodon
@@ -18,7 +19,8 @@ import re
 DEFAULT_CONFIG_FILE = os.path.join("~", ".feediverse")
 MAX_IMAGES = 4  # Mastodon allows attaching 4 images max.
 
-http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED',)
+http = urllib3.PoolManager(cert_reqs='CERT_REQUIRED',
+                           ca_certs=certifi.where(),)
 
 # encoding error-handler for buggy wordpress urls
 def __urlencodereplace_errors(exc):
